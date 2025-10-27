@@ -454,7 +454,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  
     "http://127.0.0.1:5173",
-    "https://icompaas.vercel.app",  # Your frontend
+    "https://icompaas.vercel.app",  # frontend
     "http://localhost:3000",
 ]
 
