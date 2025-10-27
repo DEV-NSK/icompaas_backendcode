@@ -493,7 +493,6 @@
 #     SESSION_COOKIE_SECURE = False
 #     CSRF_COOKIE_SECURE = False
 
-
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -507,10 +506,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
 
-# FIX: Don't hardcode DEBUG to False
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# FIX: Force DEBUG=True temporarily to fix 400 errors
+DEBUG = True  # Change this to True temporarily
 
-ALLOWED_HOSTS = ['https://icompaas-backendcode.onrender.com', 'localhost', '127.0.0.1']
+# FIXED: Remove protocols from ALLOWED_HOSTS - this was causing 400 errors
+ALLOWED_HOSTS = [
+    'icompaas-backendcode.onrender.com',  # No https://
+    'localhost', 
+    '127.0.0.1',
+    '0.0.0.0',
+    '.onrender.com',  # Wildcard for all render subdomains
+]
+
+# ADD THIS: CSRF trusted origins (these CAN have protocols)
+CSRF_TRUSTED_ORIGINS = [
+    'https://icompaas-backendcode.onrender.com',
+    'https://icompaas.vercel.app',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -566,16 +578,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce_backend.wsgi.application'
 
-# Database
+# FIXED: Use Render's database configuration
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'ecommerce_db'),
-        'USER': os.getenv('DB_USER', 'ecommerce_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 # Stripe
@@ -605,15 +614,16 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-# CORS settings
+# FIXED: CORS settings - allow all origins temporarily
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  
     "http://127.0.0.1:5173",
     "https://icompaas.vercel.app",
+    "https://icompaas-git-main-bathula-sai-kirans-projects.vercel.app",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True  # Set to True temporarily to fix CORS issues
 
 # Media files
 MEDIA_URL = '/media/'
@@ -630,18 +640,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# FIX: Only apply production security settings when DEBUG is actually False
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True
-else:
-    # Development settings - allow HTTP
-    SECURE_SSL_REDIRECT = False
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
+# FIXED: Development settings only (since DEBUG=True)
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+
+# Add this for Render proxy support
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
