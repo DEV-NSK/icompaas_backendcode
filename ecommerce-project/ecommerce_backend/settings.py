@@ -579,6 +579,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ecommerce_backend.wsgi.application'
 
 # FIXED: Use Render's database configuration
+# Better: Let Render provide the DATABASE_URL automatically
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv('DATABASE_URL'),

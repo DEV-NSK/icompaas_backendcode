@@ -33,6 +33,21 @@ pip install --upgrade pip
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
+# Check if database is available
+echo "Checking database connection..."
+python -c "
+import django
+from django.conf import settings
+django.setup()
+from django.db import connection
+try:
+    connection.ensure_connection()
+    print('✅ Database connection successful')
+except Exception as e:
+    print('❌ Database connection failed:', e)
+    exit(1)
+"
+
 # Apply database migrations
 echo "Applying database migrations..."
 python manage.py migrate
