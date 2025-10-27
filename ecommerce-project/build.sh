@@ -25,6 +25,10 @@ echo "=== Starting Build Process ==="
 set -o errexit
 set -o xtrace
 
+# Upgrade pip first
+echo "Upgrading pip..."
+pip install --upgrade pip
+
 # Install dependencies from requirements.txt
 echo "Installing dependencies..."
 pip install -r requirements.txt
