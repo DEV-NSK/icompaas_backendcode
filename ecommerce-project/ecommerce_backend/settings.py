@@ -587,6 +587,15 @@ DATABASES = {
         conn_health_checks=True,
     )
 }
+# Add this line to handle preflight requests
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET', 
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 # Stripe
 STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
