@@ -144,6 +144,191 @@
 
 
 
+# import os
+# from pathlib import Path
+# from datetime import timedelta
+# from dotenv import load_dotenv
+# import dj_database_url
+
+# # Load environment variables
+# load_dotenv()
+
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
+
+# # FIX: Don't hardcode DEBUG to False
+# DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
+# # ALLOWED_HOSTS = ['https://icompaas-backendcode.onrender.com', 'localhost', '127.0.0.1',]
+# ALLOWED_HOSTS = [
+#     'icompaas-backendcode.onrender.com',  # Remove https:// and trailing slash
+#     'localhost', 
+#     '127.0.0.1',
+#     '0.0.0.0',  # Add this for Render internal communication
+# ]
+
+# # Application definition
+# INSTALLED_APPS = [
+#     'django.contrib.admin',
+#     'django.contrib.auth',
+#     'django.contrib.contenttypes',
+#     'django.contrib.sessions',
+#     'django.contrib.messages',
+#     'django.contrib.staticfiles',
+    
+#     # Third party apps
+#     'rest_framework',
+#     'rest_framework_simplejwt',
+#     'corsheaders',
+#     'django_filters',
+    
+#     # Local apps
+#     'products',
+#     'users',
+#     'orders',
+#     'payments',
+# ]
+
+# MIDDLEWARE = [
+#     'corsheaders.middleware.CorsMiddleware',
+#     'django.middleware.security.SecurityMiddleware',
+#     'whitenoise.middleware.WhiteNoiseMiddleware',
+#     'django.contrib.sessions.middleware.SessionMiddleware',
+#     'django.middleware.common.CommonMiddleware',
+#     'django.middleware.csrf.CsrfViewMiddleware',
+#     'django.contrib.auth.middleware.AuthenticationMiddleware',
+#     'django.contrib.messages.middleware.MessageMiddleware',
+#     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# ]
+
+# ROOT_URLCONF = 'ecommerce_backend.urls'
+
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
+
+# WSGI_APPLICATION = 'ecommerce_backend.wsgi.application'
+
+# # # Database
+# # DATABASES = {
+# #     'default': {
+# #         'ENGINE': 'django.db.backends.postgresql',
+# #         'NAME': os.getenv('DB_NAME', 'ecommerce_db'),
+# #         'USER': os.getenv('DB_USER', 'ecommerce_user'),
+# #         'PASSWORD': os.getenv('DB_PASSWORD', ''),
+# #         'HOST': os.getenv('DB_HOST', 'localhost'),
+# #         'PORT': os.getenv('DB_PORT', '5432'),
+# #     }
+# # }
+
+# # Database
+
+# # DATABASES = {
+# #     'default': {
+# #         'ENGINE': 'django.db.backends.postgresql',
+# #         'NAME': os.getenv('DB_NAME', 'ecommerce_db'),
+# #         'USER': os.getenv('DB_USER', 'ecommerce_user'),
+# #         'PASSWORD': os.getenv('DB_PASSWORD', ''),
+# #         'HOST': os.getenv('DB_HOST', 'localhost'),
+# #         'PORT': os.getenv('DB_PORT', '5432'),
+# #     }
+# # }
+
+# # DATABASES = {
+# #     'default': dj_database_url.config(
+# #         default=os.getenv(
+# #             "DATABASE_URL",
+# #             "postgresql://ecommerce_db_m1f6_user:OZs3ahIcWTzUs5CEjuIgLt0teQBN5EmZ@dpg-d3ushv75r7bs73fp77b0-a.oregon-postgres.render.com/ecommerce_db_m1f6"
+# #         )
+# #     )
+# # }
+
+# # # Stripe
+# # STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+# # STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
+# # # REST Framework configuration
+# # REST_FRAMEWORK = {
+# #     'DEFAULT_AUTHENTICATION_CLASSES': (
+# #         'rest_framework_simplejwt.authentication.JWTAuthentication',
+# #     ),
+# #     'DEFAULT_PERMISSION_CLASSES': [
+# #         'rest_framework.permissions.AllowAny',
+# #     ],
+# #     'DEFAULT_FILTER_BACKENDS': [
+# #         'django_filters.rest_framework.DjangoFilterBackend',
+# #         'rest_framework.filters.SearchFilter',
+# #         'rest_framework.filters.OrderingFilter',
+# #     ],
+# #     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 20
+# }
+
+# # JWT Settings
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+# }
+
+# # CORS settings
+# # CORS settings - ADD YOUR FRONTEND
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  
+#     "http://127.0.0.1:5173",
+#     "https://icompaas.vercel.app",  # Your frontend
+#     "http://localhost:3000",  # Common frontend port
+# ]
+
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = False  # Keep this as False for security
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = False
+
+# # Media files
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# # Static files
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# # Whitenoise configuration
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AUTH_USER_MODEL = 'users.CustomUser'
+
+# # FIX: Only apply production security settings when DEBUG is actually False
+# if not DEBUG:
+#     SECURE_SSL_REDIRECT = True
+#     SESSION_COOKIE_SECURE = True
+#     CSRF_COOKIE_SECURE = True
+#     SECURE_BROWSER_XSS_FILTER = True
+#     SECURE_CONTENT_TYPE_NOSNIFF = True
+#     SECURE_HSTS_SECONDS = 31536000
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_PRELOAD = True
+# else:
+#     # Development settings - allow HTTP
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_COOKIE_SECURE = False
+#     CSRF_COOKIE_SECURE = False
+
+# --------------------------------
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -160,7 +345,19 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-secret-key')
 # FIX: Don't hardcode DEBUG to False
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['https://icompaas-backendcode.onrender.com/', 'localhost', '127.0.0.1']
+# FIXED: Remove protocols and trailing slashes
+ALLOWED_HOSTS = [
+    'icompaas-backendcode.onrender.com',  # Fixed
+    'localhost', 
+    '127.0.0.1',
+    '0.0.0.0',
+]
+
+# ADD THIS: CSRF trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    'https://icompaas-backendcode.onrender.com',
+    'https://icompaas.vercel.app',
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -216,33 +413,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce_backend.wsgi.application'
 
-# # Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME', 'ecommerce_db'),
-#         'USER': os.getenv('DB_USER', 'ecommerce_user'),
-#         'PASSWORD': os.getenv('DB_PASSWORD', ''),
-#         'HOST': os.getenv('DB_HOST', 'localhost'),
-#         'PORT': os.getenv('DB_PORT', '5432'),
-#     }
-# }
-
-# Database
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'ecommerce_db'),
-        'USER': os.getenv('DB_USER', 'ecommerce_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-    }
-}
-
-# postgresql://ecommerce_db_m1f6_user:OZs3ahIcWTzUs5CEjuIgLt0teQBN5EmZ@dpg-d3ushv75r7bs73fp77b0-a.oregon-postgres.render.com/ecommerce_db_m1f6
-
+# FIXED: Keep only one DATABASES configuration
 DATABASES = {
     'default': dj_database_url.config(
         default=os.getenv(
@@ -279,11 +450,12 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-# CORS settings
+# FIXED: CORS settings with your frontend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  
     "http://127.0.0.1:5173",
-    "https://icompaas.vercel.app",
+    "https://icompaas.vercel.app",  # Your frontend
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -319,5 +491,3 @@ else:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
-
-
